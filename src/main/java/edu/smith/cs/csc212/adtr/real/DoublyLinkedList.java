@@ -92,7 +92,7 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 	 * Static means we don't need a "this" of DoublyLinkedList to make a node.
 	 * @param <T> the type of the values stored.
 	 */
-	private static class Node<T> {
+	public static class Node<T> {
 		/**
 		 * What node comes before me?
 		 */

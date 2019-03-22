@@ -71,9 +71,12 @@ public class FixedSizeList<T> extends ListADT<T> {
 
 	@Override
 	public void addFront(T value) {
-		// TODO Start here. Do we have to write this?
-		// Or can we use addIndex somehow?
-		throw new TODOErr();		
+		//if the array list is full then we ran out of space or else we add the value to the front
+		if (fill >= array.length) {
+				
+		throw new RanOutOfSpaceError();		
+		}
+		addIndex(0, value);
 	}
 
 	@Override
