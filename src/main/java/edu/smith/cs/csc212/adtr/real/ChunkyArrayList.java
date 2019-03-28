@@ -28,29 +28,72 @@ public class ChunkyArrayList<T> extends ListADT<T> {
 
 	@Override
 	public T removeFront() {
-		T value = this.chunks.getFront().getFront();
-		this.start = start.after;
+		checkNotEmpty();
+		FixedSizeList<T> front = chunks.getFront();
+		T value = front.getFront();
+		front.removeFront();
+		if (front.isEmpty()) {
+		chunks.removeFront();
+		}
 		return value;
 	}
 
 	@Override
 	public T removeBack() {
-		throw new TODOErr();
+		checkNotEmpty();
+		FixedSizeList<T> back = chunks.getBack();
+		T value = back.getBack();
+		back.removeBack();
+		if (back.isEmpty()) {
+		chunks.removeBack();
+		}
+		return value;
 	}
 
 	@Override
 	public T removeIndex(int index) {
-		throw new TODOErr();
+		checkNotEmpty();
+		int start = 0;
+		for (FixedSizeList<T> chunk : this.chunks) {
+			// calculate bounds of this chunk.
+			int end = start + chunk.size();
+			
+			// Check whether the index should be in this chunk:
+			if (start <= index && index < end) {
+				chunk.removeIndex(index);
+			}
+			
+			// update bounds of next chunk.
+			start = end;
+		} 
+		throw new BadIndexError(index);
 	}
 
 	@Override
 	public void addFront(T item) {
-		throw new TODOErr();
+		if (isEmpty()) {
+			chunks.addFront(makeChunk());
+		}
+		FixedSizeList<T> front = chunks.getFront();
+		if (front.isFull()) {
+			front = makeChunk();
+			chunks.addFront(front);
+		}
+		front.addFront(item);
+		
 	}
 
 	@Override
 	public void addBack(T item) {
-		throw new TODOErr();
+		if (isEmpty()) {
+			chunks.addBack(makeChunk());
+		}
+		FixedSizeList<T> back = chunks.getBack();
+		if (back.isFull()) {
+			back = makeChunk();
+			chunks.addBack(back);
+		}
+		back.addBack(item);
 	}
 
 	@Override
@@ -119,7 +162,23 @@ public class ChunkyArrayList<T> extends ListADT<T> {
 	
 	@Override
 	public void setIndex(int index, T value) {
-		throw new TODOErr();
+		if (this.isEmpty()) {
+			throw new EmptyListError();
+		}
+		int start = 0;
+		for (FixedSizeList<T> chunk : this.chunks) {
+			// calculate bounds of this chunk.
+			int end = start + chunk.size();
+			
+			// Check whether the index should be in this chunk:
+			if (start <= index && index < end) {
+				chunk.setIndex(index,value);
+			}
+			
+			// update bounds of next chunk.
+			start = end;
+		} 
+		throw new BadIndexError(index);
 	}
 
 	@Override
