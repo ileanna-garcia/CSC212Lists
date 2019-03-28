@@ -28,7 +28,9 @@ public class ChunkyArrayList<T> extends ListADT<T> {
 
 	@Override
 	public T removeFront() {
-		throw new TODOErr();
+		T value = this.chunks.getFront().getFront();
+		this.start = start.after;
+		return value;
 	}
 
 	@Override
@@ -111,7 +113,7 @@ public class ChunkyArrayList<T> extends ListADT<T> {
 			
 			// update bounds of next chunk.
 			start = end;
-		}
+		} 
 		throw new BadIndexError(index);
 	}
 	

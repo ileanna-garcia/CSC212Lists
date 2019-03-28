@@ -2,7 +2,6 @@ package edu.smith.cs.csc212.adtr.real;
 
 import edu.smith.cs.csc212.adtr.ListADT;
 import edu.smith.cs.csc212.adtr.errors.BadIndexError;
-import edu.smith.cs.csc212.adtr.errors.TODOErr;
 
 public class SinglyLinkedList<T> extends ListADT<T> {
 	/**
@@ -21,6 +20,7 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 
 	@Override
 	public T removeBack() {
+		checkNotEmpty();
 		Node <T> last = null;
 		if (start.next == null) {
 			return removeFront();
@@ -38,20 +38,26 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 	@Override
 	public T removeIndex(int index) {
 		checkNotEmpty();
-		if (index ==0) {
+		T value = null;
+		if (index == 0) {
 			return removeFront();
+		}
+		else if (index >= this.size() || index < 0){
+			throw new BadIndexError(index);
 		}
 		else {
 			int count =0;
 			for(Node <T> n = start; n != null; n = n.next) {
-				if (count == index-1) {
-					T value = n.next.value;
-							
+				if (count == index - 1) {
+					 value = n.next.value;	
+					 n.next = n.next.next;
+					
+				}
+				count ++;
 				}
 				
-				}
-			}
-		
+		}
+		return value;
 		}
 	@Override
 	public void addFront(T item) {
@@ -81,8 +87,9 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 			int count =0;
 			for (Node <T> n = start; n != null; n = n.next) {
 				if(count == index -1) {
-					Node<T> temp = start;
+					Node<T> temp = n;
 					n.next = new Node <T>(item,temp.next);
+					
 				}
 			count ++;
 			}
@@ -147,6 +154,7 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 	public int size() {
 		int count = 0;
 		for (Node<T> n = this.start; n != null; n = n.next) {
+			
 			count++;
 		}
 		return count;
@@ -178,6 +186,7 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 		public Node(T value, Node<T> next) {
 			this.value = value;
 			this.next = next;
+			
 		}
 	}
 

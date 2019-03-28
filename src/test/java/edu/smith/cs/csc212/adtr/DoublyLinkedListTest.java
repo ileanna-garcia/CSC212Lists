@@ -208,6 +208,7 @@ public class DoublyLinkedListTest {
 		Assert.assertEquals(4, data.size());
 		Assert.assertEquals("c", data.removeIndex(2));
 		Assert.assertEquals(3, data.size());
+		System.out.println(data);
 		Assert.assertEquals("d", data.removeIndex(2));
 		Assert.assertEquals(2, data.size());
 		Assert.assertEquals("b", data.removeIndex(1));
